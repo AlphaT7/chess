@@ -10,104 +10,104 @@ let main = {
         position: '5-1',
         img: '&#9812;',
         captured: false,
-        type: 'king'
+        type: 'w_king'
       },
       w_queen: {
         position: '4-1',
         img: '&#9813;',
         captured: false,
-        type: 'queen'
+        type: 'w_queen'
       },
       w_bishop1: {
         position: '3-1',
         img: '&#9815;',
         captured: false,
-        type: 'bishop'
+        type: 'w_bishop'
       },
       w_bishop2: {
         position: '6-1',
         img: '&#9815;',
         captured: false,
-        type: 'bishop'
+        type: 'w_bishop'
       },
       w_knight1: {
         position: '2-1',
         img: '&#9816;',
         captured: false,
-        type: 'knight'
+        type: 'w_knight'
       },
       w_knight2: {
         position: '7-1',
         img: '&#9816;',
         captured: false,
-        type: 'knight'
+        type: 'w_knight'
       },
       w_rook1: {
         position: '1-1',
         img: '&#9814;',
         captured: false,
-        type: 'rook'
+        type: 'w_rook'
       },
       w_rook2: {
         position: '8-1',
         img: '&#9814;',
         captured: false,
-        type: 'rook'
+        type: 'w_rook'
       },
       w_pawn1: {
         position: '1-2',
         img: '&#9817;',
         captured: false,
-        type: 'pawn',
+        type: 'w_pawn',
         moved: false
       },
       w_pawn2: {
         position: '2-2',
         img: '&#9817;',
         captured: false,
-        type: 'pawn',
+        type: 'w_pawn',
         moved: false
       },
       w_pawn3: {
         position: '3-2',
         img: '&#9817;',
         captured: false,
-        type: 'pawn',
+        type: 'w_pawn',
         moved: false
       },
       w_pawn4: {
         position: '4-2',
         img: '&#9817;',
         captured: false,
-        type: 'pawn',
+        type: 'w_pawn',
         moved: false
       },
       w_pawn5: {
         position: '5-2',
         img: '&#9817;',
         captured: false,
-        type: 'pawn',
+        type: 'w_pawn',
         moved: false
       },
       w_pawn6: {
         position: '6-2',
         img: '&#9817;',
         captured: false,
-        type: 'pawn',
+        type: 'w_pawn',
         moved: false
       },
       w_pawn7: {
         position: '7-2',
         img: '&#9817;',
         captured: false,
-        type: 'pawn',
+        type: 'w_pawn',
         moved: false
       },
       w_pawn8: {
         position: '8-2',
         img: '&#9817;',
         captured: false,
-        type: 'pawn',
+        type: 'w_pawn',
         moved: false
       },
 
@@ -116,104 +116,105 @@ let main = {
         position: '2-3',
         img: '&#9818;',
         captured: false,
-        type: 'king'
+        type: 'b_king'
       },
       b_queen: {
-        position: '4-8',
+        //position: '4-8',
+        position: '3-3',
         img: '&#9819;',
         captured: false,
-        type: 'queen'
+        type: 'b_queen'
       },
       b_bishop1: {
         position: '3-8',
         img: '&#9821;',
         captured: false,
-        type: 'bishop'
+        type: 'b_bishop'
       },
       b_bishop2: {
         position: '6-8',
         img: '&#9821;',
         captured: false,
-        type: 'bishop'
+        type: 'b_bishop'
       },
       b_knight1: {
         position: '2-8',
         img: '&#9822;',
         captured: false,
-        type: 'knight'
+        type: 'b_knight'
       },
       b_knight2: {
         position: '7-8',
         img: '&#9822;',
         captured: false,
-        type: 'knight'
+        type: 'b_knight'
       },
       b_rook1: {
         position: '1-8',
         img: '&#9820;',
         captured: false,
-        type: 'rook'
+        type: 'b_rook'
       },
       b_rook2: {
         position: '8-8',
         img: '&#9820;',
         captured: false,
-        type: 'rook'
+        type: 'b_rook'
       },
       b_pawn1: {
         position: '1-7',
         img: '&#9823;',
         captured: false,
-        type: 'pawn',
+        type: 'b_pawn',
         moved: false
       },
       b_pawn2: {
         position: '2-7',
         img: '&#9823;',
         captured: false,
-        type: 'pawn',
+        type: 'b_pawn',
         moved: false
       },
       b_pawn3: {
         position: '3-7',
         img: '&#9823;',
         captured: false,
-        type: 'pawn',
+        type: 'b_pawn',
         moved: false
       },
       b_pawn4: {
         position: '4-7',
         img: '&#9823;',
         captured: false,
-        type: 'pawn',
+        type: 'b_pawn',
         moved: false
       },
       b_pawn5: {
         position: '5-7',
         img: '&#9823;',
         captured: false,
-        type: 'pawn',
+        type: 'b_pawn',
         moved: false
       },
       b_pawn6: {
         position: '6-7',
         img: '&#9823;',
         captured: false,
-        type: 'pawn',
+        type: 'b_pawn',
         moved: false
       },
       b_pawn7: {
         position: '7-7',
         img: '&#9823;',
         captured: false,
-        type: 'pawn',
+        type: 'b_pawn',
         moved: false
       },
       b_pawn8: {
         position: '8-7',
         img: '&#9823;',
         captured: false,
-        type: 'pawn',
+        type: 'b_pawn',
         moved: false
       }
 
@@ -250,7 +251,7 @@ let main = {
         case 'rook':
 
           break;
-        case 'pawn':
+        case 'w_pawn':
 
           let options = [];
           let coordinates = [];
@@ -276,11 +277,9 @@ let main = {
 
           }
 
-          options = (main.methods.checkoptions(startpoint, coordinates, 'pawn')).slice(0);
+          options = (main.methods.checkoptions(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
           main.variables.highlighted = options.slice(0);
           main.methods.highlight_options(options);
-
-          //main.methods.normal_pawnoptions(position,selectedpiece);
 
           break;
         default:
@@ -308,9 +307,9 @@ let main = {
       });
 
       switch (piecetype) {
-        case 'pawn':
+        case 'w_pawn':
 
-            let attackoptions = coordinates.filter(val => {
+            coordinates = coordinates.filter(val => {
               let sp = { x: 0, y: 0 };
               let coordinate = val.split('-');
 
@@ -319,16 +318,16 @@ let main = {
               
               if (coordinate[0] < sp.x || coordinate[0] > sp.x){ // if the coordinate is on either side of the center, check if it has an opponent piece on it;
                 return ($('#' + val).attr('chess') != 'null' && ($('#' + val).attr('chess')).slice(0,1) == 'b'); // return coordinates with opponent pieces on them
-              } else {
-                return val; // otherwise return the coordinate;
+              } else { // else if the coordinate is in the center;
+                if (coordinate[1] == (parseInt(sp.y) + 2) && $('#' + sp.x + '-' + (parseInt(sp.y) + 1)).attr('chess') != 'null'){
+                  // do nothing if this is the first  move, and there is a piece in front of the 2nd coordinate;
+                } else {
+                  return ($('#' + val).attr('chess') == 'null'); // otherwise return the coordinate if there is no chess piece on it;
+                }
               }
                           
-            });
-          
-          console.log(attackoptions);
-          
-          return attackoptions;
-
+            })
+         
           break;
       }
 
