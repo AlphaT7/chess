@@ -7,13 +7,15 @@ let main = {
     highlighted: [],
     pieces: {
       w_king: {
-        position: '5-1',
+        //position: '5-1',
+        position: '4-6',
         img: '&#9812;',
         captured: false,
         type: 'w_king'
       },
       w_queen: {
-        position: '4-1',
+        //position: '4-1',
+        position: '5-6',
         img: '&#9813;',
         captured: false,
         type: 'w_queen'
@@ -235,6 +237,15 @@ let main = {
       position.x = main.variables.pieces[selectedpiece].position.split('-')[0];
       position.y = main.variables.pieces[selectedpiece].position.split('-')[1]
 
+      // these 3 options need to be var instead of let
+      var options = []; 
+      var coordinates = [];
+      var startpoint = main.variables.pieces[selectedpiece].position;
+
+      if (main.variables.highlighted.length != 0) {
+        main.methods.normal_options(main.variables.highlighted);
+      }
+
       switch (main.variables.pieces[selectedpiece].type) {
         case 'king':
 
@@ -253,39 +264,46 @@ let main = {
           break;
         case 'w_pawn':
 
-          let options = [];
-          let coordinates = [];
-          let startpoint = main.variables.pieces[selectedpiece].position;
-
-          if (main.variables.highlighted.length != 0) {
-            main.methods.normal_options(main.variables.highlighted);
+          // calculate pawn options
+          if (main.variables.pieces[selectedpiece].moved == false) {
+            coordinates.push(main.methods.getposition(position, { x: 0, y: 1 }));
+            coordinates.push(main.methods.getposition(position, { x: 0, y: 2 }));
+            coordinates.push(main.methods.getposition(position, { x: 1, y: 1 }));
+            coordinates.push(main.methods.getposition(position, { x: -1, y: 1 }));
           }
+          else if (main.variables.pieces[selectedpiece].moved == true) {
+            coordinates.push(main.methods.getposition(position, { x: 0, y: 1 }));
+            coordinates.push(main.methods.getposition(position, { x: 1, y: 1 }));
+            coordinates.push(main.methods.getposition(position, { x: -1, y: 1 }));
+          }
+
+          break;
+
+        case 'b_pawn':
 
           // calculate pawn options
           if (main.variables.pieces[selectedpiece].moved == false) {
-            if (selectedpiece.slice(0, 1) == 'w') {
-              coordinates.push(main.methods.getposition(position, { x: 0, y: 1 }));
-              coordinates.push(main.methods.getposition(position, { x: 0, y: 2 }));
-              coordinates.push(main.methods.getposition(position, { x: 1, y: 1 }));
-              coordinates.push(main.methods.getposition(position, { x: -1, y: 1 }));
-            }
-            else if (selectedpiece.slice(0, 1) == 'b') {
-
-            }
+            coordinates.push(main.methods.getposition(position, { x: 0, y: -1 }));
+            coordinates.push(main.methods.getposition(position, { x: 0, y: -2 }));
+            coordinates.push(main.methods.getposition(position, { x: 1, y: -1 }));
+            coordinates.push(main.methods.getposition(position, { x: -1, y: -1 }))
           }
           else if (main.variables.pieces[selectedpiece].moved == true) {
-
+            coordinates.push(main.methods.getposition(position, { x: 0, y: -1 }));
+            coordinates.push(main.methods.getposition(position, { x: 1, y: -1 }));
+            coordinates.push(main.methods.getposition(position, { x: -1, y: -1 }))
           }
-
-          options = (main.methods.checkoptions(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
-          main.variables.highlighted = options.slice(0);
-          main.methods.highlight_options(options);
 
           break;
         default:
 
           break;
       }
+
+      options = (main.methods.checkoptions(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
+      main.variables.highlighted = options.slice(0);
+      main.methods.highlight_options(options);
+
     },
 
     getposition: function(position, increment) {
@@ -320,16 +338,40 @@ let main = {
                 return ($('#' + val).attr('chess') != 'null' && ($('#' + val).attr('chess')).slice(0,1) == 'b'); // return coordinates with opponent pieces on them
               } else { // else if the coordinate is in the center;
                 if (coordinate[1] == (parseInt(sp.y) + 2) && $('#' + sp.x + '-' + (parseInt(sp.y) + 1)).attr('chess') != 'null'){
-                  // do nothing if this is the first  move, and there is a piece in front of the 2nd coordinate;
+                  // do nothing if this is the pawns first move, and there is a piece in front of the 2nd coordinate;
                 } else {
                   return ($('#' + val).attr('chess') == 'null'); // otherwise return the coordinate if there is no chess piece on it;
                 }
               }
                           
-            })
+            });
          
           break;
+
+        case 'b_pawn':
+
+          coordinates = coordinates.filter(val => {
+            let sp = { x: 0, y: 0 };
+            let coordinate = val.split('-');
+
+            sp.x = startpoint.split('-')[0];
+            sp.y = startpoint.split('-')[1];
+            
+            if (coordinate[0] < sp.x || coordinate[0] > sp.x){ // if the coordinate is on either side of the center, check if it has an opponent piece on it;
+              return ($('#' + val).attr('chess') != 'null' && ($('#' + val).attr('chess')).slice(0,1) == 'w'); // return coordinates with opponent pieces on them
+            } else { // else if the coordinate is in the center;
+              if (coordinate[1] == (parseInt(sp.y) - 2) && $('#' + sp.x + '-' + (parseInt(sp.y) - 1)).attr('chess') != 'null'){
+                // do nothing if this is the pawns first move, and there is a piece in front of the 2nd coordinate;
+              } else {
+                return ($('#' + val).attr('chess') == 'null'); // otherwise return the coordinate if there is no chess piece on it;
+              }
+            }
+          });
+
+          break;
       }
+
+      
 
       return coordinates;
     },
