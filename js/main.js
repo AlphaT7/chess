@@ -7,15 +7,15 @@ let main = {
     highlighted: [],
     pieces: {
       w_king: {
-        //position: '5_1',
-        position: '4_6',
+        position: '5_1',
+        //position: '4_6',
         img: '&#9812;',
         captured: false,
         type: 'w_king'
       },
       w_queen: {
-        //position: '4_1',
-        position: '5_5',
+        position: '4_1',
+        //position: '5_5',
         img: '&#9813;',
         captured: false,
         type: 'w_queen'
@@ -27,7 +27,8 @@ let main = {
         type: 'w_bishop'
       },
       w_bishop2: {
-        position: '6_1',
+        //position: '6_1',
+        position: '5_4',
         img: '&#9815;',
         captured: false,
         type: 'w_bishop'
@@ -39,8 +40,8 @@ let main = {
         type: 'w_knight'
       },
       w_knight2: {
-        //position: '7_1',
-        position: '4_4',
+        position: '7_1',
+        //position: '4_4',
         img: '&#9816;',
         captured: false,
         type: 'w_knight'
@@ -260,14 +261,16 @@ let main = {
           break;
         case 'w_knight':
 
-          coordinates.push(main.methods.getposition(position, { x: -1, y: 2 }));
-          coordinates.push(main.methods.getposition(position, { x: 1, y: 2 }));
-          coordinates.push(main.methods.getposition(position, { x: 1, y: -2 }));
-          coordinates.push(main.methods.getposition(position, { x: -1, y: -2 }));
-          coordinates.push(main.methods.getposition(position, { x: 2, y: 1 }));
-          coordinates.push(main.methods.getposition(position, { x: 2, y: -1 }));
-          coordinates.push(main.methods.getposition(position, { x: -2, y: -1 }));
-          coordinates.push(main.methods.getposition(position, { x: -2, y: 1 }));
+          coordinates = [{ x: -1, y: 2 },{ x: 1, y: 2 },{ x: 1, y: -2 },{ x: -1, y: -2 },{ x: 2, y: 1 },{ x: 2, y: -1 },{ x: -2, y: -1 },{ x: -2, y: 1 }].map(function(val){
+            return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
+          });
+
+          break;
+        case 'b_knight':
+
+          coordinates = [{ x: -1, y: 2 },{ x: 1, y: 2 },{ x: 1, y: -2 },{ x: -1, y: -2 },{ x: 2, y: 1 },{ x: 2, y: -1 },{ x: -2, y: -1 },{ x: -2, y: 1 }].map(function(val){
+            return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
+          });
 
           break;
         case 'rook':
@@ -275,17 +278,19 @@ let main = {
           break;
         case 'w_pawn':
 
-          // calculate pawn options
           if (main.variables.pieces[selectedpiece].moved == false) {
-            coordinates.push(main.methods.getposition(position, { x: 0, y: 1 }));
-            coordinates.push(main.methods.getposition(position, { x: 0, y: 2 }));
-            coordinates.push(main.methods.getposition(position, { x: 1, y: 1 }));
-            coordinates.push(main.methods.getposition(position, { x: -1, y: 1 }));
+
+            coordinates = [{ x: 0, y: 1 },{ x: 0, y: 2 },{ x: 1, y: 1 },{ x: -1, y: 1 }].map(function(val){
+              return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
+            });
+
           }
           else if (main.variables.pieces[selectedpiece].moved == true) {
-            coordinates.push(main.methods.getposition(position, { x: 0, y: 1 }));
-            coordinates.push(main.methods.getposition(position, { x: 1, y: 1 }));
-            coordinates.push(main.methods.getposition(position, { x: -1, y: 1 }));
+
+            coordinates = [{ x: 0, y: 1 },{ x: 1, y: 1 },{ x: -1, y: 1 }].map(function(val){
+              return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
+            });
+
           }
 
           break;
@@ -294,15 +299,18 @@ let main = {
 
           // calculate pawn options
           if (main.variables.pieces[selectedpiece].moved == false) {
-            coordinates.push(main.methods.getposition(position, { x: 0, y: -1 }));
-            coordinates.push(main.methods.getposition(position, { x: 0, y: -2 }));
-            coordinates.push(main.methods.getposition(position, { x: 1, y: -1 }));
-            coordinates.push(main.methods.getposition(position, { x: -1, y: -1 }))
+
+            coordinates = [{ x: 0, y: -1 },{ x: 0, y: -2 },{ x: 1, y: -1 },{ x: -1, y: -1 }].map(function(val){
+              return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
+            });
+
           }
           else if (main.variables.pieces[selectedpiece].moved == true) {
-            coordinates.push(main.methods.getposition(position, { x: 0, y: -1 }));
-            coordinates.push(main.methods.getposition(position, { x: 1, y: -1 }));
-            coordinates.push(main.methods.getposition(position, { x: -1, y: -1 }))
+
+            coordinates = [{ x: 0, y: -1 },{ x: 1, y: -1 },{ x: -1, y: -1 }].map(function(val){
+              return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
+            });
+
           }
 
           break;
@@ -317,13 +325,7 @@ let main = {
 
     },
 
-    getposition: function(position, increment) {
-      let x = parseInt(position.x) + parseInt(increment.x);
-      let y = parseInt(position.y) + parseInt(increment.y);
-      return x + '_' + y;
-    },
-
-    checkoptions: function(startpoint, coordinates, piecetype) { // first check if any of the possible coordinates is out of bounds;
+     checkoptions: function(startpoint, coordinates, piecetype) { // first check if any of the possible coordinates is out of bounds;
         
       coordinates = coordinates.filter(val => {
         let pos = { x: 0, y: 0 };
@@ -339,8 +341,16 @@ let main = {
 
         case 'w_knight':
 
-        coordinates = coordinates.filter(val => {
+          coordinates = coordinates.filter(val => {
             return ($('#' + val).attr('chess') == 'null' || ($('#' + val).attr('chess')).slice(0,1) == 'b');
+          });
+
+          break;
+
+        case 'b_knight':
+
+          coordinates = coordinates.filter(val => {
+            return ($('#' + val).attr('chess') == 'null' || ($('#' + val).attr('chess')).slice(0,1) == 'w');
           });
 
           break;

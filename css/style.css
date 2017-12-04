@@ -56,7 +56,9 @@ div * {
 
 .gamecell:hover {
   color: #fff;
-  background: blue;
+  /*background: blue;*/
+  background: url('../img/darkwood.jpg');
+  background-size: 100% 100%;
   z-index: 2;
   transform: translate(10px, -10px);
   animation: neonBlueText 1.5s ease-in-out infinite alternate;
