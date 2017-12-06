@@ -130,7 +130,8 @@ let main = {
         type: 'b_queen'
       },
       b_bishop1: {
-        position: '3_8',
+        //position: '3_8',
+        position: '4_5',
         img: '&#9821;',
         captured: false,
         type: 'b_bishop'
@@ -245,6 +246,7 @@ let main = {
       var options = []; 
       var coordinates = [];
       var startpoint = main.variables.pieces[selectedpiece].position;
+      var c1,c2,c3,c4,c5,c6,c7,c8;
 
       if (main.variables.highlighted.length != 0) {
         main.methods.normal_options(main.variables.highlighted);
@@ -259,10 +261,10 @@ let main = {
           break;
         case 'w_bishop':
 
-          let c1 = main.methods.checkoptions2(position,[{x: 1, y: 1},{x: 2, y: 2},{x: 3, y: 3},{x: 4, y: 4},{x: 5, y: 5},{x: 6, y: 6},{x: 7, y: 7}]);
-          let c2 = main.methods.checkoptions2(position,[{x: 1, y: -1},{x: 2, y: -2},{x: 3, y: -3},{x: 4, y: -4},{x: 5, y: -5},{x: 6, y: -6},{x: 7, y: -7}]);
-          let c3 = main.methods.checkoptions2(position,[{x: -1, y: 1},{x: -2, y: 2},{x: -3, y: 3},{x: -4, y: 4},{x: -5, y: 5},{x: -6, y: 6},{x: -7, y: 7}]);
-          let c4 = main.methods.checkoptions2(position,[{x: -1, y: -1},{x: -2, y: -2},{x: -3, y: -3},{x: -4, y: -4},{x: -5, y: -5},{x: -6, y: -6},{x: -7, y: -7}]);
+          c1 = main.methods.w_options(position,[{x: 1, y: 1},{x: 2, y: 2},{x: 3, y: 3},{x: 4, y: 4},{x: 5, y: 5},{x: 6, y: 6},{x: 7, y: 7}]);
+          c2 = main.methods.w_options(position,[{x: 1, y: -1},{x: 2, y: -2},{x: 3, y: -3},{x: 4, y: -4},{x: 5, y: -5},{x: 6, y: -6},{x: 7, y: -7}]);
+          c3 = main.methods.w_options(position,[{x: -1, y: 1},{x: -2, y: 2},{x: -3, y: 3},{x: -4, y: 4},{x: -5, y: 5},{x: -6, y: 6},{x: -7, y: 7}]);
+          c4 = main.methods.w_options(position,[{x: -1, y: -1},{x: -2, y: -2},{x: -3, y: -3},{x: -4, y: -4},{x: -5, y: -5},{x: -6, y: -6},{x: -7, y: -7}]);
 
           coordinates = c1.concat(c2).concat(c3).concat(c4);
 
@@ -271,13 +273,26 @@ let main = {
           main.methods.highlight_options(options);
 
           break;
+        case 'b_bishop':
+
+          c1 = main.methods.b_options(position,[{x: 1, y: 1},{x: 2, y: 2},{x: 3, y: 3},{x: 4, y: 4},{x: 5, y: 5},{x: 6, y: 6},{x: 7, y: 7}]);
+          c2 = main.methods.b_options(position,[{x: 1, y: -1},{x: 2, y: -2},{x: 3, y: -3},{x: 4, y: -4},{x: 5, y: -5},{x: 6, y: -6},{x: 7, y: -7}]);
+          c3 = main.methods.b_options(position,[{x: -1, y: 1},{x: -2, y: 2},{x: -3, y: 3},{x: -4, y: 4},{x: -5, y: 5},{x: -6, y: 6},{x: -7, y: 7}]);
+          c4 = main.methods.b_options(position,[{x: -1, y: -1},{x: -2, y: -2},{x: -3, y: -3},{x: -4, y: -4},{x: -5, y: -5},{x: -6, y: -6},{x: -7, y: -7}]);
+
+          coordinates = c1.concat(c2).concat(c3).concat(c4);
+
+          options = coordinates.slice(0);
+          main.variables.highlighted = options.slice(0);
+          main.methods.highlight_options(options);
+          break;
         case 'w_knight':
 
           coordinates = [{ x: -1, y: 2 },{ x: 1, y: 2 },{ x: 1, y: -2 },{ x: -1, y: -2 },{ x: 2, y: 1 },{ x: 2, y: -1 },{ x: -2, y: -1 },{ x: -2, y: 1 }].map(function(val){
             return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
           });
 
-          options = (main.methods.checkoptions(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
+          options = (main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
           main.variables.highlighted = options.slice(0);
           main.methods.highlight_options(options);
 
@@ -288,7 +303,7 @@ let main = {
             return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
           });
 
-          options = (main.methods.checkoptions(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
+          options = (main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
           main.variables.highlighted = options.slice(0);
           main.methods.highlight_options(options);
 
@@ -313,7 +328,7 @@ let main = {
 
           }
 
-          options = (main.methods.checkoptions(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
+          options = (main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
           main.variables.highlighted = options.slice(0);
           main.methods.highlight_options(options);
 
@@ -337,7 +352,7 @@ let main = {
 
           }
 
-          options = (main.methods.checkoptions(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
+          options = (main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
           main.variables.highlighted = options.slice(0);
           main.methods.highlight_options(options);
 
@@ -346,7 +361,7 @@ let main = {
       }
     },
 
-    checkoptions: function(startpoint, coordinates, piecetype) { // first check if any of the possible coordinates is out of bounds;
+    options: function(startpoint, coordinates, piecetype) { // first check if any of the possible coordinates is out of bounds;
         
       coordinates = coordinates.filter(val => {
         let pos = { x: 0, y: 0 };
@@ -360,21 +375,12 @@ let main = {
 
       switch (piecetype) {
 
-        case 'w_bishop':
-        console.log(coordinates);
-          coordinates = coordinates.filter(val => {
-            let sp = { x: 0, y: 0 };
-            let coordinate = val.split('_');
-    
-            sp.x = startpoint.split('_')[0];
-            sp.y = startpoint.split('_')[1];
-            
-            return ($('#' + val).attr('chess') == 'null' || ($('#' + val).attr('chess')).slice(0,1) == 'b');
-
-          });
+        case 'w_king':
 
           break;
-
+        case 'b_king':
+        
+          break;
         case 'w_knight':
 
           coordinates = coordinates.filter(val => {
@@ -440,7 +446,7 @@ let main = {
       return coordinates;
     },
 
-    checkoptions2: function (position,coordinates) {
+    w_options: function (position,coordinates) {
       
       let flag = false;
       
@@ -462,6 +468,37 @@ let main = {
               flag = true;
               return val;
             } else if (($('#' + val).attr('chess')).slice(0,1) == 'w') {
+              flag = true;
+            }
+          }
+        });
+
+      return coordinates;
+      
+    },
+
+    b_options: function (position,coordinates) {
+      
+      let flag = false;
+      
+      coordinates = coordinates.map(function(val){ // convert the x,y into actual grid id coordinates;
+          return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
+        }).filter(val => {
+          let pos = { x: 0, y: 0 };
+          pos.x = parseInt(val.split('_')[0]);
+          pos.y = parseInt(val.split('_')[1]);
+  
+          if (!(pos.x < 1) && !(pos.x > 8) && !(pos.y < 1) && !(pos.y > 8)) { // if it is not out of bounds, return the coordinate;
+            return val;
+          }
+        }).filter(val => { // algorithm to determine line-of-sight movement options for bishop/rook/queen;
+          if (flag == false){
+            if ($('#' + val).attr('chess') == 'null'){
+              return val;
+            } else if (($('#' + val).attr('chess')).slice(0,1) == 'w') {
+              flag = true;
+              return val;
+            } else if (($('#' + val).attr('chess')).slice(0,1) == 'b') {
               flag = true;
             }
           }
