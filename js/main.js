@@ -597,13 +597,13 @@ let main = {
 
     highlight_options: function(options) {
       options.forEach(function(element, index, array) {
-        $('#' + element).toggleClass("green shake-little");
+        $('#' + element).toggleClass("green shake-little neongreen_txt");
       });
     },
 
     normal_options: function(positions) {
       positions.forEach(function(element, index, array) {
-        $('#' + element).toggleClass("green shake-little");
+        $('#' + element).toggleClass("green shake-little neongreen_txt");
       });
     }
 

@@ -56,20 +56,19 @@ div * {
 
 .gamecell:hover {
   color: #fff;
-  /*background: blue;*/
-  background: url('../img/darkwood.jpg');
-  background-size: 100% 100%;
+  background: rgba(37, 88, 228, 0.712);
   z-index: 2;
   transform: translate(10px, -10px);
   animation: neonBlueText 1.5s ease-in-out infinite alternate;
 }
 
 .grey {
-  background: grey;
+  background: rgba(128, 128, 128, 0.801);
 }
 
 .green {
-  background: green !important;
+  /*background: green !important;*/
+  background: rgb(65, 161, 73) !important;
 }
 
 .neonblue_txt {
@@ -81,7 +80,6 @@ div * {
 }
 
 .neongreen_txt {
-  font-size: 14pt;
   animation: neonGreenText 1.5s ease-in-out infinite alternate;
 }
 
