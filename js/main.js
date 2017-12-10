@@ -1,62 +1,65 @@
-/* global $ */
-
 let main = {
 
   variables: {
+    turn: 'w',
     selectedpiece: '',
     highlighted: [],
     pieces: {
       w_king: {
         position: '5_1',
-        //position: '4_6',
         img: '&#9812;',
         captured: false,
+        moved: false,
         type: 'w_king'
+        
       },
       w_queen: {
-        //position: '4_1',
-        position: '5_5',
+        position: '4_1',
         img: '&#9813;',
         captured: false,
+        moved: false,
         type: 'w_queen'
       },
       w_bishop1: {
         position: '3_1',
         img: '&#9815;',
         captured: false,
+        moved: false,
         type: 'w_bishop'
       },
       w_bishop2: {
-        //position: '6_1',
-        position: '5_4',
+        position: '6_1',
         img: '&#9815;',
         captured: false,
+        moved: false,
         type: 'w_bishop'
       },
       w_knight1: {
         position: '2_1',
         img: '&#9816;',
         captured: false,
+        moved: false,
         type: 'w_knight'
       },
       w_knight2: {
         position: '7_1',
-        //position: '4_4',
         img: '&#9816;',
         captured: false,
+        moved: false,
         type: 'w_knight'
       },
       w_rook1: {
-        //position: '1_1',
-        position: '7_4',
+        position: '1_1',
         img: '&#9814;',
         captured: false,
+        moved: false,
         type: 'w_rook'
       },
       w_rook2: {
         position: '8_1',
         img: '&#9814;',
         captured: false,
+        moved: false,
         type: 'w_rook'
       },
       w_pawn1: {
@@ -117,55 +120,59 @@ let main = {
       },
 
       b_king: {
-        //position: '5_8',
-        position: '2_3',
+        position: '5_8',
         img: '&#9818;',
         captured: false,
+        moved: false,
         type: 'b_king'
       },
       b_queen: {
-        //position: '4_8',
-        position: '3_3',
+        position: '4_8',
         img: '&#9819;',
         captured: false,
+        moved: false,
         type: 'b_queen'
       },
       b_bishop1: {
-        //position: '3_8',
-        position: '4_5',
+        position: '3_8',
         img: '&#9821;',
         captured: false,
+        moved: false,
         type: 'b_bishop'
       },
       b_bishop2: {
         position: '6_8',
         img: '&#9821;',
         captured: false,
+        moved: false,
         type: 'b_bishop'
       },
       b_knight1: {
         position: '2_8',
         img: '&#9822;',
         captured: false,
+        moved: false,
         type: 'b_knight'
       },
       b_knight2: {
         position: '7_8',
         img: '&#9822;',
         captured: false,
+        moved: false,
         type: 'b_knight'
       },
       b_rook1: {
-        //position: '1_8',
-        position: '1_5',
+        position: '1_8',
         img: '&#9820;',
         captured: false,
+        moved: false,
         type: 'b_rook'
       },
       b_rook2: {
         position: '8_8',
         img: '&#9820;',
         captured: false,
+        moved: false,
         type: 'b_rook'
       },
       b_pawn1: {
@@ -190,7 +197,8 @@ let main = {
         moved: false
       },
       b_pawn4: {
-        position: '4_7',
+        //position: '4_7',
+        position: '4_3',
         img: '&#9823;',
         captured: false,
         type: 'b_pawn',
@@ -204,8 +212,7 @@ let main = {
         moved: false
       },
       b_pawn6: {
-        //position: '6_7',
-        position: '6_5',
+        position: '6_7',
         img: '&#9823;',
         captured: false,
         type: 'b_pawn',
@@ -238,7 +245,7 @@ let main = {
       }
     },
 
-    moveoptions: function(selectedpiece, highlight) {
+    moveoptions: function(selectedpiece) {
 
       let position = { x: '', y: '' };
       position.x = main.variables.pieces[selectedpiece].position.split('_')[0];
@@ -251,7 +258,7 @@ let main = {
       var c1,c2,c3,c4,c5,c6,c7,c8;
 
       if (main.variables.highlighted.length != 0) {
-        main.methods.normal_options(main.variables.highlighted);
+        main.methods.togglehighlight(main.variables.highlighted);
       }
 
       switch (main.variables.pieces[selectedpiece].type) {
@@ -263,7 +270,7 @@ let main = {
 
           options = (main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
           main.variables.highlighted = options.slice(0);
-          main.methods.highlight_options(options);
+          main.methods.togglehighlight(options);
 
           break;
         case 'b_king':
@@ -274,7 +281,7 @@ let main = {
 
           options = (main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
           main.variables.highlighted = options.slice(0);
-          main.methods.highlight_options(options);
+          main.methods.togglehighlight(options);
 
           break;
         case 'w_queen':
@@ -292,10 +299,10 @@ let main = {
           
           options = coordinates.slice(0);
           main.variables.highlighted = options.slice(0);
-          main.methods.highlight_options(options);
+          main.methods.togglehighlight(options);
 
           break;
-          case 'b_queen':
+        case 'b_queen':
           
             c1 = main.methods.b_options(position,[{x: 1, y: 1},{x: 2, y: 2},{x: 3, y: 3},{x: 4, y: 4},{x: 5, y: 5},{x: 6, y: 6},{x: 7, y: 7}]);
             c2 = main.methods.b_options(position,[{x: 1, y: -1},{x: 2, y: -2},{x: 3, y: -3},{x: 4, y: -4},{x: 5, y: -5},{x: 6, y: -6},{x: 7, y: -7}]);
@@ -310,9 +317,10 @@ let main = {
             
             options = coordinates.slice(0);
             main.variables.highlighted = options.slice(0);
-            main.methods.highlight_options(options);
+            main.methods.togglehighlight(options);
   
             break;
+        
         case 'w_bishop':
 
           c1 = main.methods.w_options(position,[{x: 1, y: 1},{x: 2, y: 2},{x: 3, y: 3},{x: 4, y: 4},{x: 5, y: 5},{x: 6, y: 6},{x: 7, y: 7}]);
@@ -324,9 +332,10 @@ let main = {
 
           options = coordinates.slice(0);
           main.variables.highlighted = options.slice(0);
-          main.methods.highlight_options(options);
+          main.methods.togglehighlight(options);
 
           break;
+        
         case 'b_bishop':
 
           c1 = main.methods.b_options(position,[{x: 1, y: 1},{x: 2, y: 2},{x: 3, y: 3},{x: 4, y: 4},{x: 5, y: 5},{x: 6, y: 6},{x: 7, y: 7}]);
@@ -338,7 +347,7 @@ let main = {
 
           options = coordinates.slice(0);
           main.variables.highlighted = options.slice(0);
-          main.methods.highlight_options(options);
+          main.methods.togglehighlight(options);
           break;
         case 'w_knight':
 
@@ -348,7 +357,7 @@ let main = {
 
           options = (main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
           main.variables.highlighted = options.slice(0);
-          main.methods.highlight_options(options);
+          main.methods.togglehighlight(options);
 
           break;
         case 'b_knight':
@@ -359,7 +368,7 @@ let main = {
 
           options = (main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
           main.variables.highlighted = options.slice(0);
-          main.methods.highlight_options(options);
+          main.methods.togglehighlight(options);
 
           break;
         case 'w_rook':
@@ -373,7 +382,7 @@ let main = {
 
           options = coordinates.slice(0);
           main.variables.highlighted = options.slice(0);
-          main.methods.highlight_options(options);
+          main.methods.togglehighlight(options);
           
           break;
         case 'b_rook':
@@ -387,7 +396,7 @@ let main = {
 
           options = coordinates.slice(0);
           main.variables.highlighted = options.slice(0);
-          main.methods.highlight_options(options);
+          main.methods.togglehighlight(options);
           
           break;
         case 'w_pawn':
@@ -409,7 +418,7 @@ let main = {
 
           options = (main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
           main.variables.highlighted = options.slice(0);
-          main.methods.highlight_options(options);
+          main.methods.togglehighlight(options);
 
           break;
 
@@ -433,7 +442,7 @@ let main = {
 
           options = (main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
           main.variables.highlighted = options.slice(0);
-          main.methods.highlight_options(options);
+          main.methods.togglehighlight(options);
 
           break;
 
@@ -550,11 +559,14 @@ let main = {
         }).filter(val => { // algorithm to determine line-of-sight movement options for bishop/rook/queen;
           if (flag == false){
             if ($('#' + val).attr('chess') == 'null'){
+              console.log(val)
               return val;
             } else if (($('#' + val).attr('chess')).slice(0,1) == 'b') {
               flag = true;
+              console.log(val)
               return val;
             } else if (($('#' + val).attr('chess')).slice(0,1) == 'w') {
+              console.log(val+'-3')
               flag = true;
             }
           }
@@ -595,39 +607,157 @@ let main = {
       
     },
 
-    highlight_options: function(options) {
+    capture: function (target) {
+      let selectedpiece = {
+        name: $('#' + main.variables.selectedpiece).attr('chess'),
+        id: main.variables.selectedpiece
+      };
+
+      
+        //new cell
+        $('#' + target.id).html(main.variables.pieces[selectedpiece.name].img);
+        $('#' + target.id).attr('chess',selectedpiece.name);
+        //old cell
+        $('#' + selectedpiece.id).html('');
+        $('#' + selectedpiece.id).attr('chess','null');
+        //moved piece
+        main.variables.pieces[selectedpiece.name].position = target.id;
+        main.variables.pieces[selectedpiece.name].moved = true;
+        // captured piece
+        main.variables.pieces[target.name].captured = true;
+        /*
+        // toggle highlighted coordinates
+        main.methods.togglehighlight(main.variables.highlighted);
+        main.variables.highlighted.length = 0;
+        // set the selected piece to '' again
+        main.variables.selectedpiece = '';
+        */
+      
+    },
+
+    move: function (target) {
+
+      let selectedpiece = $('#' + main.variables.selectedpiece).attr('chess');
+
+      // new cell
+      $('#' + target.id).html(main.variables.pieces[selectedpiece].img);
+      $('#' + target.id).attr('chess',selectedpiece);
+      // old cell
+      $('#' + main.variables.selectedpiece).html('');
+      $('#' + main.variables.selectedpiece).attr('chess','null');
+      main.variables.pieces[selectedpiece].position = target.id;
+      main.variables.pieces[selectedpiece].moved = true;
+
+      /*
+      // toggle highlighted coordinates
+      main.methods.togglehighlight(main.variables.highlighted);
+      main.variables.highlighted.length = 0;
+      // set the selected piece to '' again
+      main.variables.selectedpiece = '';
+      */
+    },
+
+    endturn: function(){
+
+      if (main.variables.turn == 'w') {
+        main.variables.turn = 'b';
+        
+        // toggle highlighted coordinates
+        main.methods.togglehighlight(main.variables.highlighted);
+        main.variables.highlighted.length = 0;
+        // set the selected piece to '' again
+        main.variables.selectedpiece = '';
+
+        $('#turn').html("It's Blacks Turn");
+
+        $('#turn').addClass('turnhighlight');
+        window.setTimeout(function(){
+          $('#turn').removeClass('turnhighlight');
+        }, 1500);
+
+      } else if (main.variables.turn = 'b'){
+        main.variables.turn = 'w';
+
+        // toggle highlighted coordinates
+        main.methods.togglehighlight(main.variables.highlighted);
+        main.variables.highlighted.length = 0;
+        // set the selected piece to '' again
+        main.variables.selectedpiece = '';
+
+        $('#turn').html("It's Whites Turn");
+
+        $('#turn').addClass('turnhighlight');
+        window.setTimeout(function(){
+          $('#turn').removeClass('turnhighlight');
+        }, 1500);
+
+      }
+
+    },
+
+    togglehighlight: function(options) {
       options.forEach(function(element, index, array) {
         $('#' + element).toggleClass("green shake-little neongreen_txt");
       });
     },
-
-    normal_options: function(positions) {
-      positions.forEach(function(element, index, array) {
-        $('#' + element).toggleClass("green shake-little neongreen_txt");
-      });
-    }
 
   }
 };
 
 $(document).ready(function() {
   main.methods.gamesetup();
-  /*  
-    $('.gamecell').mouseover(function(){
-      if ($(this).attr('chess') != 'null'){
-        main.methods.moveoptions($(this).attr('chess'));
+
+  $('.gamecell').click(function(e) {
+
+    var selectedpiece = {
+      name: '',
+      id: main.variables.selectedpiece
+    };
+
+    if (main.variables.selectedpiece == ''){
+      selectedpiece.name = $('#' + e.target.id).attr('chess');
+    } else {
+      selectedpiece.name = $('#' + main.variables.selectedpiece).attr('chess');
+    }
+
+    var target = {
+      name: $(this).attr('chess'),
+      id: e.target.id
+    };
+
+    if (main.variables.selectedpiece == '' && target.name.slice(0,1) == main.variables.turn) { // show options
+
+      // moveoptions
+      main.variables.selectedpiece = e.target.id;
+      main.methods.moveoptions($(this).attr('chess'));
+
+    } else if (main.variables.selectedpiece !='' && target.name == 'null') { // move selected piece piece
+
+        // move
+        main.methods.move(target);
+        main.methods.endturn();
+        
+    } else if (main.variables.selectedpiece !='' && target.name != 'null' && target.id != selectedpiece.id && selectedpiece.name.slice(0,1) != target.name.slice(0,1)){ // capture a piece
+      
+      if (selectedpiece.id != target.id && main.variables.highlighted.indexOf(target.id) != (-1)) { // if it's not trying to capture pieces not in its movement range
+        
+        // capture
+        main.methods.capture(target)
+        main.methods.endturn();
+        
       }
-    });
-    
-    $('.gamecell').mouseout(function(){
-      if ($(this).attr('chess') != 'null'){
-        main.methods.moveoptions($(this).attr('chess'),false);
-      }
-    });
-  */
-  $('.gamecell').click(function(event) {
-    main.variables.selectedpiece = event.target.id;
-    main.methods.moveoptions($(this).attr('chess'), true);
+
+    } else if (main.variables.selectedpiece !='' && target.name != 'null' && target.id != selectedpiece.id && selectedpiece.name.slice(0,1) == target.name.slice(0,1)){ // toggle move options
+
+      // toggle
+      main.methods.togglehighlight(main.variables.highlighted);
+      main.variables.highlighted.length = 0;
+
+      main.variables.selectedpiece = target.id;
+      main.methods.moveoptions(target.name);
+
+    }
+
   });
 
   $('body').contextmenu(function(e) {
