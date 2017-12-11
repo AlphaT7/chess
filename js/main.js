@@ -28,7 +28,8 @@ let main = {
         type: 'w_bishop'
       },
       w_bishop2: {
-        position: '6_1',
+        //position: '6_1',
+        position: '4_3',
         img: '&#9815;',
         captured: false,
         moved: false,
@@ -42,7 +43,8 @@ let main = {
         type: 'w_knight'
       },
       w_knight2: {
-        position: '7_1',
+        //position: '7_1',
+        position: '6_3',
         img: '&#9816;',
         captured: false,
         moved: false,
@@ -91,7 +93,8 @@ let main = {
         moved: false
       },
       w_pawn5: {
-        position: '5_2',
+        //position: '5_2',
+        position: '5_3',
         img: '&#9817;',
         captured: false,
         type: 'w_pawn',
@@ -141,7 +144,7 @@ let main = {
         type: 'b_bishop'
       },
       b_bishop2: {
-        position: '6_8',
+        position: '6_6',
         img: '&#9821;',
         captured: false,
         moved: false,
@@ -155,7 +158,7 @@ let main = {
         type: 'b_knight'
       },
       b_knight2: {
-        position: '7_8',
+        position: '7_6',
         img: '&#9822;',
         captured: false,
         moved: false,
@@ -197,15 +200,15 @@ let main = {
         moved: false
       },
       b_pawn4: {
-        //position: '4_7',
-        position: '4_3',
+        position: '4_7',
         img: '&#9823;',
         captured: false,
         type: 'b_pawn',
         moved: false
       },
       b_pawn5: {
-        position: '5_7',
+        //position: '5_7',
+        position: '5_6',
         img: '&#9823;',
         captured: false,
         type: 'b_pawn',
@@ -264,9 +267,15 @@ let main = {
       switch (main.variables.pieces[selectedpiece].type) {
         case 'w_king':
 
-          coordinates = [{ x: 1, y: 1 },{ x: 1, y: 0 },{ x: 1, y: -1 },{ x: 0, y: -1 },{ x: -1, y: -1 },{ x: -1, y: 0 },{ x: -1, y: 1 },{ x: 0, y: 1 }].map(function(val){
-            return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
-          });
+          if ($('#6_1').attr('chess') == 'null' && $('#7_1').attr('chess') == 'null' && main.variables.pieces['w_king'].moved == false && main.variables.pieces['w_rook2'].moved == false) {
+            coordinates = [{ x: 1, y: 1 },{ x: 1, y: 0 },{ x: 1, y: -1 },{ x: 0, y: -1 },{ x: -1, y: -1 },{ x: -1, y: 0 },{ x: -1, y: 1 },{ x: 0, y: 1 },{x: 2, y: 0}].map(function(val){
+              return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
+            });
+          } else {
+            coordinates = [{ x: 1, y: 1 },{ x: 1, y: 0 },{ x: 1, y: -1 },{ x: 0, y: -1 },{ x: -1, y: -1 },{ x: -1, y: 0 },{ x: -1, y: 1 },{ x: 0, y: 1 }].map(function(val){
+              return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
+            });
+          }
 
           options = (main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
           main.variables.highlighted = options.slice(0);
@@ -275,10 +284,20 @@ let main = {
           break;
         case 'b_king':
 
+        if ($('#6_8').attr('chess') == 'null' && $('#7_8').attr('chess') == 'null' && main.variables.pieces['b_king'].moved == false && main.variables.pieces['b_rook2'].moved == false) {
+          coordinates = [{ x: 1, y: 1 },{ x: 1, y: 0 },{ x: 1, y: -1 },{ x: 0, y: -1 },{ x: -1, y: -1 },{ x: -1, y: 0 },{ x: -1, y: 1 },{ x: 0, y: 1 },{x: 2, y: 0}].map(function(val){
+            return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
+          });
+        } else {
           coordinates = [{ x: 1, y: 1 },{ x: 1, y: 0 },{ x: 1, y: -1 },{ x: 0, y: -1 },{ x: -1, y: -1 },{ x: -1, y: 0 },{ x: -1, y: 1 },{ x: 0, y: 1 }].map(function(val){
             return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
           });
-
+        }
+        /*
+          coordinates = [{ x: 1, y: 1 },{ x: 1, y: 0 },{ x: 1, y: -1 },{ x: 0, y: -1 },{ x: -1, y: -1 },{ x: -1, y: 0 },{ x: -1, y: 1 },{ x: 0, y: 1 }].map(function(val){
+            return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
+          });
+        */
           options = (main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
           main.variables.highlighted = options.slice(0);
           main.methods.togglehighlight(options);
@@ -733,9 +752,74 @@ $(document).ready(function() {
 
     } else if (main.variables.selectedpiece !='' && target.name == 'null') { // move selected piece piece
 
-        // move
+      if (selectedpiece.name == 'w_king' || selectedpiece.name == 'b_king'){
+        
+        let t0 = (selectedpiece.name = 'w_king');
+        let t1 = (selectedpiece.name = 'b_king');
+        let t2 = (main.variables.pieces[selectedpiece.name].moved == false);
+        let t3 = (main.variables.pieces['b_rook2'].moved == false);
+        let t4 = (main.variables.pieces['w_rook2'].moved == false);
+        let t5 = (target.id == '7_8');
+        let t6 = (target.id == '7_1');
+  
+        if (t0 && t2 && t4 &&t6){ // castle w_king
+  
+          let k_position = '5_1';
+          let k_target = '7_1';
+          let r_position = '8_1';
+          let r_target = '6_1';
+  
+          main.variables.pieces['w_king'].position = '7_1';
+          main.variables.pieces['w_king'].moved = true;
+          $('#'+k_position).html('');
+          $('#'+k_position).attr('chess','null');
+          $('#'+k_target).html(main.variables.pieces['w_king'].img);
+          $('#'+k_target).attr('chess','w_king');
+  
+          main.variables.pieces['w_rook2'].position = '6_1';
+          main.variables.pieces['w_rook2'].moved = true;
+          $('#'+r_position).html('');
+          $('#'+r_position).attr('chess','null');
+          $('#'+r_target).html(main.variables.pieces['w_rook2'].img);
+          $('#'+r_target).attr('chess','w_rook2');
+  
+          main.methods.endturn();
+  
+        } else if (t1 && t2 && t3 && t5){ // castle b_king
+  
+          let k_position = '5_8';
+          let k_target = '7_8';
+          let r_position = '8_8';
+          let r_target = '6_8';
+  
+          // w_king
+          main.variables.pieces['b_king'].position = '7_8';
+          main.variables.pieces['b_king'].moved = true;
+          $('#'+k_position).html('');
+          $('#'+k_position).attr('chess','null');
+          $('#'+k_target).html(main.variables.pieces['b_king'].img);
+          $('#'+k_target).attr('chess','b_king');
+  
+          main.variables.pieces['b_rook2'].position = '6_8';
+          main.variables.pieces['b_rook2'].moved = true;
+          $('#'+r_position).html('');
+          $('#'+r_position).attr('chess','null');
+          $('#'+r_target).html(main.variables.pieces['b_rook2'].img);
+          $('#'+r_target).attr('chess','b_rook2');
+  
+          main.methods.endturn();
+          
+        } else { // move selectedpiece
+          main.methods.move(target);
+          main.methods.endturn();
+        }
+  
+      } else { // else if selecedpiece.name is not white/black king than move
+
         main.methods.move(target);
         main.methods.endturn();
+
+      }
         
     } else if (main.variables.selectedpiece !='' && target.name != 'null' && target.id != selectedpiece.id && selectedpiece.name.slice(0,1) != target.name.slice(0,1)){ // capture a piece
       
