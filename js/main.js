@@ -28,8 +28,7 @@ let main = {
         type: 'w_bishop'
       },
       w_bishop2: {
-        //position: '6_1',
-        position: '4_3',
+        position: '6_1',
         img: '&#9815;',
         captured: false,
         moved: false,
@@ -43,8 +42,7 @@ let main = {
         type: 'w_knight'
       },
       w_knight2: {
-        //position: '7_1',
-        position: '6_3',
+        position: '7_1',
         img: '&#9816;',
         captured: false,
         moved: false,
@@ -93,8 +91,7 @@ let main = {
         moved: false
       },
       w_pawn5: {
-        //position: '5_2',
-        position: '5_3',
+        position: '5_2',
         img: '&#9817;',
         captured: false,
         type: 'w_pawn',
@@ -144,7 +141,7 @@ let main = {
         type: 'b_bishop'
       },
       b_bishop2: {
-        position: '6_6',
+        position: '6_8',
         img: '&#9821;',
         captured: false,
         moved: false,
@@ -158,7 +155,7 @@ let main = {
         type: 'b_knight'
       },
       b_knight2: {
-        position: '7_6',
+        position: '7_8',
         img: '&#9822;',
         captured: false,
         moved: false,
@@ -207,8 +204,7 @@ let main = {
         moved: false
       },
       b_pawn5: {
-        //position: '5_7',
-        position: '5_6',
+        position: '5_7',
         img: '&#9823;',
         captured: false,
         type: 'b_pawn',
@@ -847,5 +843,7 @@ $(document).ready(function() {
   $('body').contextmenu(function(e) {
     e.preventDefault();
   });
+
+  //$('.gamecell').height($('.gamecell').width());
 
 });
