@@ -4,6 +4,7 @@ let main = {
     turn: 'w',
     selectedpiece: '',
     highlighted: [],
+    checkposition: '',
     pieces: {
       w_king: {
         position: '5_1',
@@ -251,14 +252,9 @@ let main = {
       position.y = main.variables.pieces[selectedpiece].position.split('_')[1];
 
       // these options need to be var instead of let
-      var options = []; 
       var coordinates = [];
       var startpoint = main.variables.pieces[selectedpiece].position;
       var c1,c2,c3,c4,c5,c6,c7,c8;
-
-      if (main.variables.highlighted.length != 0) {
-        main.methods.togglehighlight(main.variables.highlighted);
-      }
 
       switch (main.variables.pieces[selectedpiece].type) {
         case 'w_king':
@@ -272,31 +268,23 @@ let main = {
               return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
             });
           }
-
-          options = (main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
-          main.variables.highlighted = options.slice(0);
-          main.methods.togglehighlight(options);
+          
+          return main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type);
 
           break;
         case 'b_king':
 
-        if ($('#6_8').attr('chess') == 'null' && $('#7_8').attr('chess') == 'null' && main.variables.pieces['b_king'].moved == false && main.variables.pieces['b_rook2'].moved == false) {
-          coordinates = [{ x: 1, y: 1 },{ x: 1, y: 0 },{ x: 1, y: -1 },{ x: 0, y: -1 },{ x: -1, y: -1 },{ x: -1, y: 0 },{ x: -1, y: 1 },{ x: 0, y: 1 },{x: 2, y: 0}].map(function(val){
-            return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
-          });
-        } else {
-          coordinates = [{ x: 1, y: 1 },{ x: 1, y: 0 },{ x: 1, y: -1 },{ x: 0, y: -1 },{ x: -1, y: -1 },{ x: -1, y: 0 },{ x: -1, y: 1 },{ x: 0, y: 1 }].map(function(val){
-            return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
-          });
-        }
-        /*
-          coordinates = [{ x: 1, y: 1 },{ x: 1, y: 0 },{ x: 1, y: -1 },{ x: 0, y: -1 },{ x: -1, y: -1 },{ x: -1, y: 0 },{ x: -1, y: 1 },{ x: 0, y: 1 }].map(function(val){
-            return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
-          });
-        */
-          options = (main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
-          main.variables.highlighted = options.slice(0);
-          main.methods.togglehighlight(options);
+          if ($('#6_8').attr('chess') == 'null' && $('#7_8').attr('chess') == 'null' && main.variables.pieces['b_king'].moved == false && main.variables.pieces['b_rook2'].moved == false) {
+            coordinates = [{ x: 1, y: 1 },{ x: 1, y: 0 },{ x: 1, y: -1 },{ x: 0, y: -1 },{ x: -1, y: -1 },{ x: -1, y: 0 },{ x: -1, y: 1 },{ x: 0, y: 1 },{x: 2, y: 0}].map(function(val){
+              return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
+            });
+          } else {
+            coordinates = [{ x: 1, y: 1 },{ x: 1, y: 0 },{ x: 1, y: -1 },{ x: 0, y: -1 },{ x: -1, y: -1 },{ x: -1, y: 0 },{ x: -1, y: 1 },{ x: 0, y: 1 }].map(function(val){
+              return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
+            });
+          }
+
+          return main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type);
 
           break;
         case 'w_queen':
@@ -312,9 +300,7 @@ let main = {
 
           coordinates = c1.concat(c2).concat(c3).concat(c4).concat(c5).concat(c6).concat(c7).concat(c8);
           
-          options = coordinates.slice(0);
-          main.variables.highlighted = options.slice(0);
-          main.methods.togglehighlight(options);
+          return coordinates;
 
           break;
         case 'b_queen':
@@ -330,9 +316,7 @@ let main = {
   
             coordinates = c1.concat(c2).concat(c3).concat(c4).concat(c5).concat(c6).concat(c7).concat(c8);
             
-            options = coordinates.slice(0);
-            main.variables.highlighted = options.slice(0);
-            main.methods.togglehighlight(options);
+            return coordinates
   
             break;
         
@@ -345,9 +329,7 @@ let main = {
 
           coordinates = c1.concat(c2).concat(c3).concat(c4);
 
-          options = coordinates.slice(0);
-          main.variables.highlighted = options.slice(0);
-          main.methods.togglehighlight(options);
+          return coordinates;
 
           break;
         
@@ -360,9 +342,8 @@ let main = {
 
           coordinates = c1.concat(c2).concat(c3).concat(c4);
 
-          options = coordinates.slice(0);
-          main.variables.highlighted = options.slice(0);
-          main.methods.togglehighlight(options);
+          return coordinates;
+
           break;
         case 'w_knight':
 
@@ -370,9 +351,7 @@ let main = {
             return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
           });
 
-          options = (main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
-          main.variables.highlighted = options.slice(0);
-          main.methods.togglehighlight(options);
+          return main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type);
 
           break;
         case 'b_knight':
@@ -381,9 +360,7 @@ let main = {
             return (parseInt(position.x) + parseInt(val.x)) + '_' + (parseInt(position.y) + parseInt(val.y));
           });
 
-          options = (main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
-          main.variables.highlighted = options.slice(0);
-          main.methods.togglehighlight(options);
+          return main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type);
 
           break;
         case 'w_rook':
@@ -395,9 +372,7 @@ let main = {
 
           coordinates = c1.concat(c2).concat(c3).concat(c4);
 
-          options = coordinates.slice(0);
-          main.variables.highlighted = options.slice(0);
-          main.methods.togglehighlight(options);
+          return coordinates;
           
           break;
         case 'b_rook':
@@ -409,9 +384,7 @@ let main = {
 
           coordinates = c1.concat(c2).concat(c3).concat(c4);
 
-          options = coordinates.slice(0);
-          main.variables.highlighted = options.slice(0);
-          main.methods.togglehighlight(options);
+          return coordinates;
           
           break;
         case 'w_pawn':
@@ -431,9 +404,7 @@ let main = {
 
           }
 
-          options = (main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
-          main.variables.highlighted = options.slice(0);
-          main.methods.togglehighlight(options);
+          return main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type);
 
           break;
 
@@ -455,9 +426,7 @@ let main = {
 
           }
 
-          options = (main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type)).slice(0);
-          main.variables.highlighted = options.slice(0);
-          main.methods.togglehighlight(options);
+          return main.methods.options(startpoint, coordinates, main.variables.pieces[selectedpiece].type);
 
           break;
 
@@ -574,14 +543,11 @@ let main = {
         }).filter(val => { // algorithm to determine line-of-sight movement options for bishop/rook/queen;
           if (flag == false){
             if ($('#' + val).attr('chess') == 'null'){
-              console.log(val)
               return val;
             } else if (($('#' + val).attr('chess')).slice(0,1) == 'b') {
               flag = true;
-              console.log(val)
               return val;
             } else if (($('#' + val).attr('chess')).slice(0,1) == 'w') {
-              console.log(val+'-3')
               flag = true;
             }
           }
@@ -640,14 +606,6 @@ let main = {
         main.variables.pieces[selectedpiece.name].moved = true;
         // captured piece
         main.variables.pieces[target.name].captured = true;
-        /*
-        // toggle highlighted coordinates
-        main.methods.togglehighlight(main.variables.highlighted);
-        main.variables.highlighted.length = 0;
-        // set the selected piece to '' again
-        main.variables.selectedpiece = '';
-        */
-      
     },
 
     move: function (target) {
@@ -663,21 +621,78 @@ let main = {
       main.variables.pieces[selectedpiece].position = target.id;
       main.variables.pieces[selectedpiece].moved = true;
 
-      /*
-      // toggle highlighted coordinates
-      main.methods.togglehighlight(main.variables.highlighted);
-      main.variables.highlighted.length = 0;
-      // set the selected piece to '' again
-      main.variables.selectedpiece = '';
-      */
+    },
+
+    checkmate: function() {
+
+      switch (main.variables.turn){
+        case 'w':
+
+          // first check if the move will jepordize the players king
+
+          let b_piecesarray = Object.keys(main.variables.pieces).map(function(val) { // convert main.variables.pieces into an array
+            return val;
+          }).filter(function(val){ // filter out captured pieces
+            if (main.variables.pieces[val].captured == false){
+              return val;
+            }
+          }).filter(function(val){ // filter out white pieces
+            return val.slice(0,1) == 'b';
+          }).map(function(val){ // lookup all moves for each piece and return as an array
+            return main.methods.moveoptions(val);
+          }).join().split(',').filter(function(val){ // join the array into string and then split by ',' to make a single array; then filter out blank entries
+            return val != '';
+          }).filter(function(val){ // check if any of the final returned coordinates are the w_king's position and return
+            return val == main.variables.pieces['w_king'].position;
+          });
+
+          if (b_piecesarray.length != 0) {
+            
+            return true;
+
+          } else {
+
+            let targetarray = Object.keys(main.variables.pieces).map(function(val) { // convert main.variables.pieces into an array
+              return val;
+            }).filter(function(val){ // filter out captured pieces
+              if (main.variables.pieces[val].captured == false){
+                return val;
+              }
+            }).filter(function(val){ // filter out black pieces
+              return val.slice(0,1) == 'w';
+            }).map(function(val){ // lookup all moves for each piece and return as an array
+              return main.methods.moveoptions(val);
+            }).join().split(',').filter(function(val){ // join the array into string and then split by ',' to make a single array; then filter out blank entries
+              return val != '';
+            }).filter(function(val){ // check if any of the final returned coordinates are the b_king's position and return
+              return val == main.variables.pieces['b_king'].position;
+            });
+          
+            if (targetarray.length != 0){
+              main.variables.checkposition = targetarray[0];
+              main.methods.togglecheck();
+            }
+
+          }
+
+          break;
+
+        case 'b':
+
+          break;
+      }
+
     },
 
     endturn: function(){
+
+      main.methods.checkmate();
 
       if (main.variables.turn == 'w') {
         main.variables.turn = 'b';
         
         // toggle highlighted coordinates
+             
         main.methods.togglehighlight(main.variables.highlighted);
         main.variables.highlighted.length = 0;
         // set the selected piece to '' again
@@ -688,7 +703,7 @@ let main = {
         $('#turn').addClass('turnhighlight');
         window.setTimeout(function(){
           $('#turn').removeClass('turnhighlight');
-        }, 1500);
+        }, 1200);
 
       } else if (main.variables.turn = 'b'){
         main.variables.turn = 'w';
@@ -708,6 +723,10 @@ let main = {
 
       }
 
+    },
+
+    togglecheck: function(){
+      $('#'+main.variables.checkposition).toggleClass('red');
     },
 
     togglehighlight: function(options) {
@@ -744,7 +763,9 @@ $(document).ready(function() {
 
       // moveoptions
       main.variables.selectedpiece = e.target.id;
-      main.methods.moveoptions($(this).attr('chess'));
+      options = main.methods.moveoptions($(this).attr('chess'));
+      main.variables.highlighted = options.slice(0);
+      main.methods.togglehighlight(options);
 
     } else if (main.variables.selectedpiece !='' && target.name == 'null') { // move selected piece piece
 
@@ -819,10 +840,10 @@ $(document).ready(function() {
         
     } else if (main.variables.selectedpiece !='' && target.name != 'null' && target.id != selectedpiece.id && selectedpiece.name.slice(0,1) != target.name.slice(0,1)){ // capture a piece
       
-      if (selectedpiece.id != target.id && main.variables.highlighted.indexOf(target.id) != (-1)) { // if it's not trying to capture pieces not in its movement range
+      if (selectedpiece.id != target.id && main.variables.highlighted.indexOf(target.id) != (-1)) { // if it's not trying to capture pieces that aren't in its movement range
         
         // capture
-        main.methods.capture(target)
+        main.methods.capture(target);
         main.methods.endturn();
         
       }
@@ -834,7 +855,9 @@ $(document).ready(function() {
       main.variables.highlighted.length = 0;
 
       main.variables.selectedpiece = target.id;
-      main.methods.moveoptions(target.name);
+      options = main.methods.moveoptions(target.name);
+      main.variables.highlighted = options.slice(0);
+      main.methods.togglehighlight(options);
 
     }
 
@@ -844,6 +867,6 @@ $(document).ready(function() {
     e.preventDefault();
   });
 
-  //$('.gamecell').height($('.gamecell').width());
+  $('.gamecell').height($('.gamecell').width());
 
 });
