@@ -609,7 +609,7 @@ let main = {
     },
 
     move: function (target) {
-
+/*
       let selectedpiece = $('#' + main.variables.selectedpiece).attr('chess');
 
       // new cell
@@ -620,22 +620,117 @@ let main = {
       $('#' + main.variables.selectedpiece).attr('chess','null');
       main.variables.pieces[selectedpiece].position = target.id;
       main.variables.pieces[selectedpiece].moved = true;
+*/
+      let selectedpiece = $('#' + main.variables.selectedpiece).attr('chess');
+      movebackup = main.variables.pieces[selectedpiece].position;
+      main.variables.pieces[selectedpiece].position = target.id;
+      $('#' + target.id).attr('chess',selectedpiece);
+
+      if (main.variables.turn == 'w'){
+
+        if (main.methods.check('b') == true){
+          $('#message').html('Your king is in check!');
+            $('#message').addClass('msg-alert');
+            window.setTimeout(function(){
+              $('#message').removeClass('msg-alert');
+            }, 1200);
+            $('#' + target.id).attr('chess','');
+          main.variables.pieces[selectedpiece].position = movebackup;
+          $('#' + target.id).attr('chess','null');
+        } else {
+
+          if (main.variables.checkposition != '') {
+            main.methods.togglecheck();
+            main.variables.checkposition = '';
+          }
+
+          // new cell
+          $('#' + target.id).html(main.variables.pieces[selectedpiece].img);
+          // old cell
+          $('#' + main.variables.selectedpiece).html('');
+          $('#' + main.variables.selectedpiece).attr('chess','null');
+          main.variables.pieces[selectedpiece].moved = true;
+
+          if (main.methods.check('w') == true){
+            main.variables.checkposition = main.variables.pieces['b_king'].position;
+            main.methods.togglecheck();
+          }
+
+          main.methods.endturn();
+        }
+      } else if (main.variables.turn == 'b'){
+        if (main.methods.check('w') == true){
+            $('#message').html('Your king is in check!');
+            $('#message').addClass('msg-alert');
+            window.setTimeout(function(){
+              $('#message').removeClass('msg-alert');
+            }, 1200);
+            main.variables.pieces[selectedpiece].position = movebackup;
+            $('#' + target.id).attr('chess','null');
+        } else {
+
+          if (main.variables.checkposition != '') {
+            main.methods.togglecheck();
+            main.variables.checkposition = '';
+          }
+
+          // new cell
+          $('#' + target.id).html(main.variables.pieces[selectedpiece].img);
+          $('#' + target.id).attr('chess',selectedpiece);
+          // old cell
+          $('#' + main.variables.selectedpiece).html('');
+          $('#' + main.variables.selectedpiece).attr('chess','null');
+          main.variables.pieces[selectedpiece].moved = true;
+
+          if (main.methods.check('b') == true){
+            main.variables.checkposition = main.variables.pieces['w_king'].position;
+            main.methods.togglecheck();
+          }
+
+          main.methods.endturn();
+        }
+      }
+
 
     },
 
-    checkmate: function() {
+    check: function(turn) {
 
-      switch (main.variables.turn){
+      switch (turn){
         case 'w':
 
-          // first check if the move will jepordize the players king
+          // check if the move will jepordize the black players king
+
+          let w_piecesarray = Object.keys(main.variables.pieces).map(function(val) { // convert main.variables.pieces into an array
+            return val;
+          }).filter(function(val){ // filter out captured pieces
+            return main.variables.pieces[val].captured == false;
+          }).filter(function(val){ // filter out black pieces
+            return val.slice(0,1) == 'w';
+          }).map(function(val){ // lookup all moves for each piece and return as an array
+            return main.methods.moveoptions(val);
+          }).join().split(',').filter(function(val){ // join the array into string and then split by ',' to make a single array; then filter out blank entries
+            return val != '';
+          }).filter(function(val){ // check if any of the final returned coordinates are the w_king's position and return
+            return val == main.variables.pieces['b_king'].position;
+          });
+
+          if (w_piecesarray.length != 0) {        
+            return true;
+          } else {
+            return false;
+          }
+
+          break;
+
+        case 'b':
+
+          // check if the move will jepordize the white players king
 
           let b_piecesarray = Object.keys(main.variables.pieces).map(function(val) { // convert main.variables.pieces into an array
             return val;
           }).filter(function(val){ // filter out captured pieces
-            if (main.variables.pieces[val].captured == false){
-              return val;
-            }
+            return main.variables.pieces[val].captured == false;
           }).filter(function(val){ // filter out white pieces
             return val.slice(0,1) == 'b';
           }).map(function(val){ // lookup all moves for each piece and return as an array
@@ -646,38 +741,11 @@ let main = {
             return val == main.variables.pieces['w_king'].position;
           });
 
-          if (b_piecesarray.length != 0) {
-            
+          if (b_piecesarray.length != 0) {        
             return true;
-
           } else {
-
-            let targetarray = Object.keys(main.variables.pieces).map(function(val) { // convert main.variables.pieces into an array
-              return val;
-            }).filter(function(val){ // filter out captured pieces
-              if (main.variables.pieces[val].captured == false){
-                return val;
-              }
-            }).filter(function(val){ // filter out black pieces
-              return val.slice(0,1) == 'w';
-            }).map(function(val){ // lookup all moves for each piece and return as an array
-              return main.methods.moveoptions(val);
-            }).join().split(',').filter(function(val){ // join the array into string and then split by ',' to make a single array; then filter out blank entries
-              return val != '';
-            }).filter(function(val){ // check if any of the final returned coordinates are the b_king's position and return
-              return val == main.variables.pieces['b_king'].position;
-            });
-          
-            if (targetarray.length != 0){
-              main.variables.checkposition = targetarray[0];
-              main.methods.togglecheck();
-            }
-
+            return false;
           }
-
-          break;
-
-        case 'b':
 
           break;
       }
@@ -685,8 +753,6 @@ let main = {
     },
 
     endturn: function(){
-
-      main.methods.checkmate();
 
       if (main.variables.turn == 'w') {
         main.variables.turn = 'b';
@@ -800,7 +866,7 @@ $(document).ready(function() {
           $('#'+r_target).html(main.variables.pieces['w_rook2'].img);
           $('#'+r_target).attr('chess','w_rook2');
   
-          main.methods.endturn();
+          //main.methods.endturn();
   
         } else if (t1 && t2 && t3 && t5){ // castle b_king
   
@@ -824,17 +890,17 @@ $(document).ready(function() {
           $('#'+r_target).html(main.variables.pieces['b_rook2'].img);
           $('#'+r_target).attr('chess','b_rook2');
   
-          main.methods.endturn();
+          //main.methods.endturn();
           
         } else { // move selectedpiece
           main.methods.move(target);
-          main.methods.endturn();
+          //main.methods.endturn();
         }
   
       } else { // else if selecedpiece.name is not white/black king than move
 
         main.methods.move(target);
-        main.methods.endturn();
+        //main.methods.endturn();
 
       }
         

@@ -35,7 +35,7 @@ div * {
   color: #fff;
 }
 
-#tip {
+#tip, #message {
   max-width: calc(76% + 48px);
   max-height: 30px;
   width: 100%;
@@ -49,6 +49,17 @@ div * {
   padding: 5px 0 0 0;
   background: #fff;
   margin: 10px 0 0 calc(9.5% + 6px);
+}
+
+#message {
+  transition: 1.25s linear;
+  background: rgba(255, 255, 255, 0);
+  opacity: 0;
+}
+
+.msg-alert{
+  background: rgba(255,187,51,1) !important;
+  opacity: 1 !important;
 }
 
 #game {
