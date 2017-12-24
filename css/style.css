@@ -5,6 +5,27 @@ body {
   padding: 0;
   margin: 0;
   font-family: sans-serif;
+  font-size: 3vw;
+  position: relative;
+}
+
+.bg-gradient{
+  background: linear-gradient(to bottom, #38d1ff 0%,#ffffff 100%);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  margin: 0;
+  z-index: -2;
+}
+
+.bg-pattern{
+  background: url("../img/bg-pattern.png") repeat;
+  opacity: 0.5;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  margin: 0;
+  z-index: -1;
 }
 
 div * {
@@ -14,19 +35,19 @@ div * {
 }
 
 #turn {
-  max-width: calc(76% + 48px);
-  max-height: 30px;
+  max-width: 75%;
+  max-height: 5%;
   width: 100%;
   height: 100%;
+  margin: 0 auto;
   position: relative;
-  float: left;
-  border-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
   border: 1px solid rgb(0, 0, 0);
   border-style: inset;
   text-align: center;
-  padding: 5px 0 0 0;
   background: #fff;
-  margin: 0 0 0 calc(9.5% + 6px);
+  font-size: 2vw;
   transition: .85s linear;
 }
 
@@ -36,22 +57,23 @@ div * {
 }
 
 #tip, #message {
-  max-width: calc(76% + 48px);
-  max-height: 30px;
+  max-width: 75%;
+  max-height: 5%;
   width: 100%;
   height: 100%;
   position: relative;
-  float: left;
+  display: grid;
   border-radius: 5px;
   border: 1px solid rgb(0, 0, 0);
   border-style: inset;
   text-align: center;
-  padding: 5px 0 0 0;
   background: #fff;
-  margin: 10px 0 0 calc(9.5% + 6px);
+  font-size: 2vw;
+  margin: 10px auto;
 }
 
 #message {
+  height: 5%;
   transition: 1.25s linear;
   background: rgba(255, 255, 255, 0);
   opacity: 0;
@@ -63,54 +85,47 @@ div * {
 }
 
 #game {
-  min-width: 504px;
-  min-height: 504px;
-  max-width: 700px;
-  max-height: 700px;
-  width: 100%;
-  height: 100%;
+  max-width: 35%;
+  max-height: 35%;
   position: relative;
-  margin: 20px auto;
+  margin: 0 auto;
+  display: grid;
+  grid-gap: 3px;
+  grid-template-columns: auto auto auto auto auto auto auto auto auto;
+  grid-template-rows: auto auto auto auto auto auto auto auto auto;
 }
 
 .cellprefix {
-  width: 9.5%;
-  height: 9.5%;
-  max-width: 100px;
-  max-height: 100px;
-  float: left;
-  margin: 3px;
-  position: relative;
-  padding: 15px 0 0 20px;
+  border: 1px solid rgba(255,255,255,.71);
+  padding: 15px 0 0 13px;
+  color: rgba(255,255,255,.71);
 }
 
 .gamecell {
   border: 1px solid #000;
-  width: 9.5%;
-  height: 9.5%;
-  position: relative;
-  max-width: 100px;
-  max-height: 100px;
-  float: left;
-  margin: 3px;
   transition: all 0.5s ease-in-out;
   border-radius: 5px;
-  font-size: 30pt;
   padding: 5px 0 0 0;
   cursor: pointer;
-  text-align: center
+  text-align: center;
+  background: rgba(255,255,255,.71);
 }
 
 .gamecell:hover {
   color: #fff;
-  background: rgba(37, 88, 228, 0.712);
+  background: rgba(0, 132, 255, .71);
   z-index: 2;
-  transform: translate(10px, -10px);
   animation: neonBlueText 1.5s ease-in-out infinite alternate;
 }
 
+#sidebar{
+  position: absolute;
+  right: 0;
+  width: 25%;
+}
+
 .grey {
-  background: rgba(128, 128, 128, 0.801);
+  background: rgba(128, 128, 128, 1);
 }
 
 .green {
@@ -311,3 +326,42 @@ div * {
   animation-duration: 100ms;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite; }
+
+  /* --- CSS MEDIA QUERIES --- */
+
+/*@media screen and (max-width : 550px), (max-height: 400px) {*/
+  @media (orientation: landscape) {
+
+  body{
+    font-size: 2vw;
+  }
+  
+  #game{
+    max-width: 35%;
+    max-height: 35%;
+  }
+
+}
+
+/*@media screen and (max-width : 450px), (max-height: 750px) {*/
+@media (orientation: portrait){
+  
+  body{
+    font-size: 3vw;
+  }
+  
+  #sidebar{
+    width: 80%;
+    position: relative;
+    margin: 0 auto;
+  }
+
+  #turn, #message, #tip {
+    max-width: 100%;
+  }
+
+  #game{
+    max-width: 80%;
+    max-height: 80%;
+  }
+}

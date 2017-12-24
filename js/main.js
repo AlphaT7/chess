@@ -606,21 +606,20 @@ let main = {
         main.variables.pieces[selectedpiece.name].moved = true;
         // captured piece
         main.variables.pieces[target.name].captured = true;
+
+        main.methods.endturn();
+    },
+
+    message: function (text) {
+      $('#message').html(text);
+      $('#message').addClass('msg-alert');
+      window.setTimeout(function(){
+        $('#message').removeClass('msg-alert');
+      }, 1200);
     },
 
     move: function (target) {
-/*
-      let selectedpiece = $('#' + main.variables.selectedpiece).attr('chess');
 
-      // new cell
-      $('#' + target.id).html(main.variables.pieces[selectedpiece].img);
-      $('#' + target.id).attr('chess',selectedpiece);
-      // old cell
-      $('#' + main.variables.selectedpiece).html('');
-      $('#' + main.variables.selectedpiece).attr('chess','null');
-      main.variables.pieces[selectedpiece].position = target.id;
-      main.variables.pieces[selectedpiece].moved = true;
-*/
       let selectedpiece = $('#' + main.variables.selectedpiece).attr('chess');
       movebackup = main.variables.pieces[selectedpiece].position;
       main.variables.pieces[selectedpiece].position = target.id;
@@ -629,11 +628,8 @@ let main = {
       if (main.variables.turn == 'w'){
 
         if (main.methods.check('b') == true){
-          $('#message').html('Your king is in check!');
-            $('#message').addClass('msg-alert');
-            window.setTimeout(function(){
-              $('#message').removeClass('msg-alert');
-            }, 1200);
+          main.methods.message('Your king is in check!');
+            
             $('#' + target.id).attr('chess','');
           main.variables.pieces[selectedpiece].position = movebackup;
           $('#' + target.id).attr('chess','null');
@@ -660,11 +656,7 @@ let main = {
         }
       } else if (main.variables.turn == 'b'){
         if (main.methods.check('w') == true){
-            $('#message').html('Your king is in check!');
-            $('#message').addClass('msg-alert');
-            window.setTimeout(function(){
-              $('#message').removeClass('msg-alert');
-            }, 1200);
+            main.methods.message('Your king is in check!');
             main.variables.pieces[selectedpiece].position = movebackup;
             $('#' + target.id).attr('chess','null');
         } else {
@@ -866,8 +858,6 @@ $(document).ready(function() {
           $('#'+r_target).html(main.variables.pieces['w_rook2'].img);
           $('#'+r_target).attr('chess','w_rook2');
   
-          //main.methods.endturn();
-  
         } else if (t1 && t2 && t3 && t5){ // castle b_king
   
           let k_position = '5_8';
@@ -890,18 +880,20 @@ $(document).ready(function() {
           $('#'+r_target).html(main.variables.pieces['b_rook2'].img);
           $('#'+r_target).attr('chess','b_rook2');
   
-          //main.methods.endturn();
-          
         } else { // move selectedpiece
-          main.methods.move(target);
-          //main.methods.endturn();
+          if (main.variables.highlighted.indexOf(target.id) != -1){
+            main.methods.move(target);
+          } else {
+            main.methods.message('Invalid Move!');
+          }
         }
   
       } else { // else if selecedpiece.name is not white/black king than move
-
-        main.methods.move(target);
-        //main.methods.endturn();
-
+        if (main.variables.highlighted.indexOf(target.id) != -1){
+          main.methods.move(target);
+        } else {
+          main.methods.message('Invalid Move!');
+        }
       }
         
     } else if (main.variables.selectedpiece !='' && target.name != 'null' && target.id != selectedpiece.id && selectedpiece.name.slice(0,1) != target.name.slice(0,1)){ // capture a piece
@@ -910,7 +902,6 @@ $(document).ready(function() {
         
         // capture
         main.methods.capture(target);
-        main.methods.endturn();
         
       }
 
@@ -933,6 +924,6 @@ $(document).ready(function() {
     e.preventDefault();
   });
 
-  $('.gamecell').height($('.gamecell').width());
+  //$('.gamecell').height($('.gamecell').width());
 
 });
